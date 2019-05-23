@@ -144,6 +144,7 @@ function Start-RebootTask {
     }
 }
 
+#Based on <http://gallery.technet.microsoft.com/scriptcenter/Get-PendingReboot-Query-bdb79542>
 function Test-RebootRequired {
     $result = @{
         CBSRebootPending            = $false
@@ -324,15 +325,17 @@ function Get-MissingUpdates {
     }
 }
 
-function CleanFolders {
+function Start-CleanFolders {
     Write-Host "Do we need a cleanup? Lets take a look!"
 
     If (Test-Path $TemporaryDownloadPath) {
-        Write-Host "Removing files in $TemporaryDownloadPath"
+        Write-Host "Vaccuming files in $TemporaryDownloadPath"
         Remove-Item -Path "$TemporaryDownloadPath\*.msu" -Force -Verbose -ErrorAction SilentlyContinue
-
-        Write-Host "Removing folder $TemporaryDownloadPath"
-        Remove-Item -Path $TemporaryDownloadPath -Force -Verbose -ErrorAction SilentlyContinue
+	
+	if ((Get-ChildItem $TemporaryDownloadPath | Measure-Object).Count -eq 0) {
+        	Write-Host "Removing folder $TemporaryDownloadPath since it's empty"
+        	Remove-Item -Path $TemporaryDownloadPath -Force -Verbose -ErrorAction SilentlyContinue
+	}
     }
     Else {
         Write-Host "The folder $TemporaryDownloadPath is not existing. Nothing to cleanup."
@@ -361,7 +364,7 @@ If (Test-InternetConnection) {
         }
     }
 
-    CleanFolders
+    Start-CleanFolders
 }
 Else {
     Write-Host "The connection is not good enough for downloading updates. Trying later..."
