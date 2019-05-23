@@ -24,6 +24,23 @@
   
 .EXAMPLE
   Install-Updates.ps1 -RebootTool \\server\shutdowntool.exe -RebootToolSwitches "/t:7200 /m:1440 /r /c" -MeasureServer "server.local" UpdateSharePath-"\\server\ClientHealth$\Updates" -TemporaryDownloadPath "$env:TEMP\DownloadUpdates"
+  
+.Prerequisties
+ Shutdown Tool from Coretech
+ https://blog.ctglobalservices.com/configuration-manager-sccm/kea/new-version-of-the-coretech-shutdown-tool/
+ 
+ Make the folder structure of the updates like this:
+ Windows 10 64-bit 1709
+ 	Servicing Stack
+ Windows 10 64-bit 1803
+ 	Servicing Stack
+ Windows 10 64-bit 1809
+ 	Servicing Stack
+
+ Hope you get the idea. I'm using it with the magnificient tool of Anders Rodland, i've just disabled the updates bit.
+ https://gallery.technet.microsoft.com/ConfigMgr-Client-Health-ccd00bd7
+ 
+ It works standalone also of course
 #>
 
 #requires -RunAsAdministrator 
