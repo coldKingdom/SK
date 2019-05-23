@@ -1,2 +1,2 @@
-# SK
-Strängnäs kommun
+# PatchManagement
+Install-Updates.ps1
